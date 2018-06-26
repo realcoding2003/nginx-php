@@ -1,0 +1,16 @@
+sudo: true
+dist: trusty
+
+language: bash
+
+env:
+  global:
+    - REPO="${DOCKER_USER}/docker-php-nginx"
+    - COMMIT=${TRAVIS_COMMIT::8}
+
+jobs:
+  include:
+    - stage: build and test docker image
+      script:
+      - ./.ci/build-test-push.sh
+      after_success: ./.ci/merge.sh $GIT_USERNAME $GIT_TOKEN
